@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package despacho;
+
+// Servicio de Despacho
+service DespachoService {
+  // Asignar conductor a un viaje
+  rpc AsignarConductor(SolicitudAsignacion) returns (RespuestaAsignacion);
+  
+  // Obtener estado de un conductor
+  rpc ObtenerEstadoConductor(SolicitudEstadoConductor) returns (RespuestaEstadoConductor);
+  
+  // Actualizar disponibilidad de conductor
+  rpc ActualizarDisponibilidad(SolicitudActualizarDisponibilidad) returns (RespuestaActualizacion);
+}
+
+// Mensajes de solicitud
+message SolicitudAsignacion {
+  int32 id_viaje = 1;
+  int32 id_cliente = 2;
+  double origen_lat = 3;
+  double origen_lon = 4;
+  double destino_lat = 5;
+  double destino_lon = 6;
+  string prioridad = 7;
+}
+
+message SolicitudEstadoConductor {
+  int32 id_conductor = 1;
+}
+
+message SolicitudActualizarDisponibilidad {
+  int32 id_conductor = 1;
+  string estado = 2;  // disponible, ocupado, inactivo
+  double ubicacion_lat = 3;
+  double ubicacion_lon = 4;
+}
+
+// Mensajes de respuesta
+message RespuestaAsignacion {
+  bool exitoso = 1;
+  string mensaje = 2;
+  int32 id_conductor = 3;
+  int32 id_asignacion = 4;
+  double distancia_conductor = 5;
+  int32 tiempo_estimado_llegada = 6;
+}
+
+message RespuestaEstadoConductor {
+  int32 id_conductor = 1;
+  string estado = 2;
+  double ubicacion_lat = 3;
+  double ubicacion_lon = 4;
+  string ultima_actualizacion = 5;
+}
+
+message RespuestaActualizacion {
+  bool exitoso = 1;
+  string mensaje = 2;
+}
