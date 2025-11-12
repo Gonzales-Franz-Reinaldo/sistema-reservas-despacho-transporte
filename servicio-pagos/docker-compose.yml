@@ -1,0 +1,24 @@
+services:
+  servicio-pagos:
+    image: rust:latest
+    container_name: servicio-pagos
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: ["bash", "-lc", "RUST_LOG=info cargo run --release"]
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
+    driver: local
