@@ -1,0 +1,1 @@
+"""Módulo de schemas Pydantic"""
